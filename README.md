@@ -33,7 +33,7 @@ module.exports = {
 
 > `npm install`
 
-**Installation**
+**Installation command slashs** (Used with each modification of the command slashs construction)
 
 > `node slash`
 

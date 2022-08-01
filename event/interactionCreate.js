@@ -3,7 +3,7 @@ const { Collection } = require("discord.js");
 module.exports = {
   name: "interactionCreate",
   async run(client, interaction) {
-    if (interaction.isCommand() || interaction.isContextMenu()) {
+    if (interaction.type === InteractionType.ApplicationCommand) {
       if (!interaction.guild) return;
       if (!client.slash.has(interaction.commandName)) return;
 

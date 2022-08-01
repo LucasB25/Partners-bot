@@ -1,7 +1,7 @@
 // This file allows you to register slash commands, it must be launched each time you add a new (/) command
 
 const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord-api-types/v9");
+const { Routes } = require("discord-api-types/v10");
 const { readdirSync } = require("fs");
 const path = require("path");
 const config = require("./config");
@@ -14,7 +14,7 @@ readdirSync("./slashCommands/").map(async (dir) => {
     );
   });
 });
-const rest = new REST({ version: "9" }).setToken(config.token);
+const rest = new REST({ version: "10" }).setToken(config.token);
 
 (async () => {
   try {

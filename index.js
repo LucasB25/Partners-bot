@@ -1,15 +1,19 @@
-const { Client, Collection, Intents } = require("discord.js");
-const client = new Client({
-  allowedMentions: { parse: ["users", "roles"] },
-  fetchAllMembers: false,
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-  ],
-});
+const { Client, Collection, Intents, GatewayIntentBits } = require("discord.js");
 
+const client = new Client({
+fetchAllMembers: false,
+Mentions: {
+        everyone: false,
+        roles: false,
+        users: false
+      },
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+      ],
+    });
 //SET COLLECTION
 client.commandes = new Collection();
 client.slash = new Collection();

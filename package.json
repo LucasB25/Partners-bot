@@ -2,19 +2,19 @@
   "name": "partners-bot",
   "main": "index.js",
   "author": "LucasB25",
-  "version": "1.0.0",
+  "version": "1.50.0",
   "repository": "https://github.com/LucasB25/Partners-bot",
   "description": "A friendly bot to manage your discord partnerships",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "@discordjs/rest": "^1.0.0",
+    "@discordjs/rest": "^1.0.1",
     "chalk": "^4.0.0",
-    "discord-api-types": "^0.36.0",
-    "discord.js": "^13.7.0",
+    "discord-api-types": "^0.37.0",
+    "discord.js": "^14.1.2",
     "fs": "^0.0.1-security",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "path": "^0.12.7"
   }
 }

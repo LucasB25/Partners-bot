@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType, ButtonStyle } = require("discord.js");
 
 module.exports = {
   name: "partners",
@@ -17,13 +17,13 @@ module.exports = {
     {
       name: "owner",
       description: "Partner member",
-      type: "6",
+      type: ApplicationCommandOptionType.User,
       required: true,
     },
     {
       name: "ping",
       description: "Mention of partnership",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: true,
       choices: [
         { name: "Everyone", value: "pingeveryone" },
@@ -34,37 +34,37 @@ module.exports = {
     {
       name: "title",
       description: "Partner server name",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
     {
       name: "description",
       description: "Partner server description",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
     {
       name: "discord",
       description: "Partner’s Server Discord",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
     {
       name: "image",
       description: "Partner logo or banner",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: false,
     },
     {
       name: "website",
       description: "Partner siteweb",
-      type: "3",
+      type: ApplicationCommandOptionType.String,
       required: false,
     },
     {
       name: "botid",
       description: "Partner bot",
-      type: "6",
+      type: ApplicationCommandOptionType.String,
       required: false,
     },
   ],
@@ -144,7 +144,7 @@ module.exports = {
       ephemeral: true,
     });
 
-    const Embed = new MessageEmbed()
+    const Embed = new EmbedBuilder()
       .setTitle(String(title))
       .setDescription(String(description))
       .setColor(client.config.embedinvisiblecolor)
@@ -159,21 +159,21 @@ module.exports = {
       Embed.setImage(images);
     }
 
-    const button1 = new MessageButton()
-      .setStyle("LINK")
+    const button1 = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setEmoji("⚠️")
       .setLabel("Discord")
       .setURL(discord);
 
-    const button2 = new MessageButton()
-      .setStyle("LINK")
+    const button2 = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setEmoji("🔗")
       .setLabel("website")
       .setURL("https://test.com")
       .setDisabled(true);
 
-    const button3 = new MessageButton()
-      .setStyle("LINK")
+    const button3 = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setEmoji("🤖")
       .setLabel("Bot")
       .setURL(
@@ -181,7 +181,7 @@ module.exports = {
       )
       .setDisabled(true);
 
-    const buttonembed1 = new MessageActionRow().addComponents(
+    const buttonembed1 = new ActionRowBuilder().addComponents(
       button1,
       button2,
       button3
