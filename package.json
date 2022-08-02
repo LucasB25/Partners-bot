@@ -2,7 +2,7 @@
   "name": "partners-bot",
   "main": "index.js",
   "author": "LucasB25",
-  "version": "1.0.0",
+  "version": "1.0.0V13",
   "repository": "https://github.com/LucasB25/Partners-bot",
   "description": "A friendly bot to manage your discord partnerships",
   "scripts": {
