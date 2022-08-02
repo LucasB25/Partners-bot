@@ -1,18 +1,11 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,ApplicationCommandType, ApplicationCommandOptionType, ButtonStyle } = require("discord.js");
 
 module.exports = {
-  name: "partners",
-  description: "Send Partner Embed.",
-  usage: "/partners <Name> <Description> <Discord> <WebSite>",
-  dir: "admin",
-  cooldown: 1,
-  examples: [
-    "partners",
-    "partners Owner:Lนcαѕ#7323 Ping:here Name:LucasB25's coding Description:Server support for my various projects Discord:https://discord.gg/ATYQ8GsDHR WebSite:https://panaisdev.tk botid:707627135577358417",
-  ],
-  aliases: ["partner"],
-  permissions: ["ADMINISTRATOR"],
-  ownerOnly: true,
+  name: 'partners',
+	description: "Send Partner Embed.",
+	cooldown: 3000,
+	type: ApplicationCommandType.ChatInput,
+  default_member_permissions: 'Administrator', // permission required
   options: [
     {
       name: "owner",
@@ -67,8 +60,9 @@ module.exports = {
       type: ApplicationCommandOptionType.String,
       required: false,
     },
-  ],
-  run: async (client, interaction) => {
+  ],	
+  
+run: async (client, interaction) => {
     const partnerowner = interaction.options.getUser("owner");
     const title = interaction.options.getString("title");
     const description = interaction.options.getString("description");
@@ -93,11 +87,11 @@ module.exports = {
     if (
       !discord.includes(
         "discord.gg/" ||
-          "discordapp.com/invite/" ||
-          "https://discord.gg/" ||
-          "http://discord.gg/" ||
-          "http://discordapp.com/invite/" ||
-          "https://discordapp.com/invite/"
+        "discordapp.com/invite/" ||
+        "https://discord.gg/" ||
+        "http://discord.gg/" ||
+        "http://discordapp.com/invite/" ||
+        "https://discordapp.com/invite/"
       )
     )
       return interaction.reply({

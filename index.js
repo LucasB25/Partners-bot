@@ -1,4 +1,4 @@
-const { Client, Collection, Intents, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js");
 
 const client = new Client({
 fetchAllMembers: false,
@@ -13,12 +13,12 @@ Mentions: {
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMessageReactions,
       ],
+      partials: [Partials.Channel, Partials.Message, Partials.User, Partials.GuildMember, Partials.Reaction] 
     });
 //SET COLLECTION
-client.commandes = new Collection();
-client.slash = new Collection();
-client.aliases = new Collection();
-cooldowns = new Collection();
+client.slashCommands = new Collection();
+
+module.exports = client;
 
 //SET UTILS
 client.logger = require("./utils/logger");

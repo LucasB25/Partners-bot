@@ -1,65 +1,63 @@
-const { Collection } = require("discord.js");
+const { EmbedBuilder, Collection, PermissionsBitField } = require('discord.js');
+const ms = require('ms');
+const client = require('..');
 
-module.exports = {
-  name: "interactionCreate",
-  async run(client, interaction) {
-    if (interaction.type === InteractionType.ApplicationCommand) {
-      if (!interaction.guild) return;
-      if (!client.slash.has(interaction.commandName)) return;
+const cooldown = new Collection();
 
-      const command = client.slash.get(interaction.commandName);
-      try {
-        if (!cooldowns.has(command.name)) {
-          cooldowns.set(command.name, new Collection());
-        }
-        if (command.ownerOnly) {
-          if (interaction.user.id !== client.config.ownerID) {
-            return interaction.reply({
-              content: "This command only for Bot Owner!",
-              ephemeral: true,
-            });
-          }
-        }
-        const now = Date.now();
-        const timestamps = cooldowns.get(command.name);
-        const cooldownAmount = command.cooldown || 2 * 1000;
+client.on('interactionCreate', async interaction => {
+	const slashCommand = client.slashCommands.get(interaction.commandName);
+		if (interaction.type == 4) {
+			if(slashCommand.autocomplete) {
+				const choices = [];
+				await slashCommand.autocomplete(interaction, choices)
+			}
+		}
+		if (!interaction.type == 2) return;
+	
+		if(!slashCommand) return client.slashCommands.delete(interaction.commandName);
+		try {
+			if(slashCommand.cooldown) {
+				if(cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) return interaction.reply({ content: "You are on `<duration>` cooldown!".replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), {long : true}) ) })
+				if(slashCommand.userPerms || slashCommand.botPerms) {
+					if(!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
+						const userPerms = new EmbedBuilder()
+						.setDescription(`🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`)
+						.setColor('Red')
+						return interaction.reply({ embeds: [userPerms] })
+					}
+					if(!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(slashCommand.botPerms || []))) {
+						const botPerms = new EmbedBuilder()
+						.setDescription(`🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command!`)
+						.setColor('Red')
+						return interaction.reply({ embeds: [botPerms] })
+					}
 
-        if (timestamps.has(interaction.user.id)) {
-          const expirationTime =
-            timestamps.get(interaction.user.id) + cooldownAmount;
-          if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return interaction.reply({
-              content: `Wait ${timeLeft.toFixed(1)} more second${
-                timeLeft.toFixed(1) < 2 ? "" : "s"
-              } to use **${command.name}**`,
-              ephemeral: true,
-            });
-          }
-        }
-        timestamps.set(interaction.user.id, now);
-        setTimeout(
-          () => timestamps.delete(interaction.user.id),
-          cooldownAmount
-        );
-        if (command.permissions) {
-          if (!interaction.member.permissions.has(command.permissions)) {
-            return interaction.reply({
-              content: `You're missing permissions: ${command.permissions
-                .map((p) => `**${p}**`)
-                .join(", ")}`,
-              ephemeral: true,
-            });
-          }
-        }
-        command.run(client, interaction);
-      } catch (e) {
-        console.log(e);
-        await interaction.reply({
-          content: "An error has occured",
-          ephemeral: true,
-        });
-      }
-    }
-  },
-};
+				}
+
+					await slashCommand.run(client, interaction);
+					cooldown.set(`slash-${slashCommand.name}${interaction.user.id}`, Date.now() + slashCommand.cooldown)
+					setTimeout(() => {
+							cooldown.delete(`slash-${slashCommand.name}${interaction.user.id}`)
+					}, slashCommand.cooldown)
+			} else {
+				if(slashCommand.userPerms || slashCommand.botPerms) {
+					if(!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
+						const userPerms = new EmbedBuilder()
+						.setDescription(`🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`)
+						.setColor('Red')
+						return interaction.reply({ embeds: [userPerms] })
+					}
+					if(!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(slashCommand.botPerms || []))) {
+						const botPerms = new EmbedBuilder()
+						.setDescription(`🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command!`)
+						.setColor('Red')
+						return interaction.reply({ embeds: [botPerms] })
+					}
+
+				}
+					await slashCommand.run(client, interaction);
+			}
+		} catch (error) {
+				console.log(error);
+		}
+});
