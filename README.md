@@ -33,14 +33,6 @@ module.exports = {
 
 > `npm install`
 
-**Installation command slashs** (Used with each modification of the command slashs construction)
-
-> `node slash`
-
 **Start the bot**
 
 > `node index.js`
-
-## Information
-
-The main handler base was created from the directory [Structure-Discord-Bot](https://github.com/meliooff/Structure-Discord-Bot)
