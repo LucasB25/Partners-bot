@@ -26,7 +26,9 @@ After cloning, run
 npm install
 ```
 
-- Start the bot with `node src/index.js`
+- Initialized the command slashs `node slash.js`
+
+- Start the bot with `node index.js`
 
 to snag all of the dependencies. Of course, you need [node](https://nodejs.org/download/release/v16.18.1/) installed. I also strongly recommend [nodemon](https://www.npmjs.com/package/nodemon) as it makes testing _much_ easier.
 
