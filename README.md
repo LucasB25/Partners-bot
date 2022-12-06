@@ -2,7 +2,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
 ## 📎 Requirements
 
@@ -87,12 +86,6 @@ module.exports = {
 6. Push to the branch: `git push origin my-new-feature`
 7. Submit a pull request
 
-<!-- LICENSE -->
-
-## 🔐 License
-
-Distributed under the Apache-2.0 license License. See [`LICENSE`](https://github.com/LucasB25/Partners-bot/blob/main/LICENSE) for more information.
-
 [contributors-shield]: https://img.shields.io/github/contributors/LucasB25/Partners-bot.svg?style=for-the-badge
 [contributors-url]: https://github.com/LucasB25/Partners-bot/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/LucasB25/Partners-bot.svg?style=for-the-badge
@@ -101,5 +94,3 @@ Distributed under the Apache-2.0 license License. See [`LICENSE`](https://github
 [stars-url]: https://github.com/LucasB25/Partners-bot/stargazers
 [issues-shield]: https://img.shields.io/github/issues/LucasB25/Partners-bot.svg?style=for-the-badge
 [issues-url]: https://github.com/LucasB25/Partners-bot/issues
-[license-shield]: https://img.shields.io/github/license/LucasB25/Partners-bot.svg?style=for-the-badge
-[license-url]: https://github.com/LucasB25/Partners-bot/blob/main/LICENSE
