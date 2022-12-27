@@ -1,11 +1,19 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,ApplicationCommandType, ApplicationCommandOptionType, ButtonStyle } = require("discord.js");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ApplicationCommandType,
+  ApplicationCommandOptionType,
+  ButtonStyle,
+} = require("discord.js");
 
 module.exports = {
-  name: 'partners',
-	description: "Send Partner Embed.",
-	cooldown: 3000,
-	type: ApplicationCommandType.ChatInput,
-  default_member_permissions: 'Administrator', // permission required
+  name: "partners",
+  description: "Send Partner Embed.",
+  type: ApplicationCommandType.ChatInput,
+  cooldown: 10000,
+  category: "admin",
+  default_member_permissions: ["Administrator"],
   options: [
     {
       name: "owner",
@@ -57,12 +65,12 @@ module.exports = {
     {
       name: "botid",
       description: "Partner bot",
-      type: ApplicationCommandOptionType.String,
+      type: ApplicationCommandOptionType.User,
       required: false,
     },
-  ],	
-  
-run: async (client, interaction) => {
+  ],
+
+  run: async (client, interaction) => {
     const partnerowner = interaction.options.getUser("owner");
     const title = interaction.options.getString("title");
     const description = interaction.options.getString("description");
@@ -75,30 +83,31 @@ run: async (client, interaction) => {
       ping = "@everyone";
     if (interaction.options.get("ping").value === "pinghere") ping = "@here";
     if (interaction.options.get("ping").value === "pingcustom")
-      ping = client.config.pingcustom;
+      ping = client.roles.pingcustom;
 
-    if (description.length < 100)
-      return interaction.reply({
-        content:
-          "<a:redtick:981193642167382046> You do not meet the minimum of 100 requested",
-        ephemeral: true,
-      });
+    if (description.length < 10)
+      return interaction
+        .reply({
+          content: "The description requires 100 catacrtere minimums",
+          ephemeral: true,
+        })
+        .then(setTimeout(() => interaction.deleteReply(), 10000));
 
     if (
       !discord.includes(
         "discord.gg/" ||
-        "discordapp.com/invite/" ||
-        "https://discord.gg/" ||
-        "http://discord.gg/" ||
-        "http://discordapp.com/invite/" ||
-        "https://discordapp.com/invite/"
+          "https://discord.gg/" ||
+          "http://discord.gg/" ||
+          "http://discordapp.com/invite/" ||
+          "https://discordapp.com/invite/"
       )
     )
-      return interaction.reply({
-        content:
-          "<a:redtick:981193642167382046> Your invitation link is not correct",
-        ephemeral: true,
-      });
+      return interaction
+        .reply({
+          content: "Your invitation link is not correct",
+          ephemeral: true,
+        })
+        .then(setTimeout(() => interaction.deleteReply(), 10000));
 
     const regexwebsite =
       /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gi;
@@ -109,11 +118,12 @@ run: async (client, interaction) => {
     let checklink = false;
     if (websites) {
       if (!regexwebsite.exec(websites)) {
-        return interaction.reply({
-          content:
-            "<a:redtick:981193642167382046> The website you provided is not correct",
-          ephemeral: true,
-        });
+        return interaction
+          .reply({
+            content: "The website you provided is not correct",
+            ephemeral: true,
+          })
+          .then(setTimeout(() => interaction.deleteReply(), 10000));
       } else {
         checklink = true;
       }
@@ -122,26 +132,21 @@ run: async (client, interaction) => {
     let checkimage = false;
     if (images) {
       if (!regeximage.exec(images)) {
-        return interaction.reply({
-          content:
-            "<a:redtick:981193642167382046> The image you provided is not correct",
-          ephemeral: true,
-        });
+        return interaction
+          .reply({
+            content: "The image you provided is not correct",
+            ephemeral: true,
+          })
+          .then(setTimeout(() => interaction.deleteReply(), 10000));
       } else {
         checkimage = true;
       }
     }
 
-    interaction.reply({
-      content:
-        "<a:greentick:981193642268061746> The control functioned correctly",
-      ephemeral: true,
-    });
-
     const Embed = new EmbedBuilder()
       .setTitle(String(title))
       .setDescription(String(description))
-      .setColor(client.config.embedinvisiblecolor)
+      .setColor(client.colors.botColor)
       .setTimestamp()
       .setImage(`https://test.com`)
       .setFooter({
@@ -193,8 +198,15 @@ run: async (client, interaction) => {
         );
     }
 
-    interaction.channel.send({
-      content: `**Membres**: ${partnerowner} \n**Mention**: ${ping}`,
+    await interaction
+      .reply({
+        content: `The message has been sent!`,
+        ephemeral: true,
+      })
+      .then(setTimeout(() => interaction.deleteReply(), 10000));
+
+    await interaction.channel.send({
+      content: `**Membres**: ${partnerowner} \n**Mention**: <@&${ping}>`,
       embeds: [Embed],
       components: [buttonembed1],
       ephemeral: false,
