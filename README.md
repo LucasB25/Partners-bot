@@ -76,7 +76,6 @@ module.exports = {
 ## 💌 Support Server
 
 [![DiscordBanner](https://invidget.switchblade.xyz/fbJFAs43vD)](https://discord.gg/fbJFAs43vD)<br />
-[Support Server](https://discord.gg/fbJFAs43vD)
 
 ## 🤝 Contributing
 
